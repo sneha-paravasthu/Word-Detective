@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Detective</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">🔎 Word Detective</div>
+      <div class="level">⭐ Word Explorer</div>
+    </header>
+
+    <main class="hero">
+      <div class="hero-content">
+        <span class="tag">🧩 THE ULTIMATE WORD ADVENTURE</span>
+
+        <h1>
+          Ready to Become a
+          <span>Word Detective?</span>
+        </h1>
+
+        <p>
+          Search mysterious words, discover new vocabulary, solve clues and
+          challenge your brain!
+        </p>
+
+        <button class="start-btn" onclick="startGame()">Let's Play! 🚀</button>
+      </div>
+
+      <div class="hero-image">
+        <div class="emoji-circle">📚</div>
+        <div class="floating-emoji">🔤</div>
+        <div class="floating-emoji second">💡</div>
+        <div class="floating-emoji third">⭐</div>
+      </div>
+    </main>
+    <section class="game-screen" id="gameScreen">
+      <h2>🔎 Welcome, Detective!</h2>
+      <p>Choose your next word adventure.</p>
+
+      <div class="game-options">
+        <div class="game-card">
+          <span>🔍</span>
+          <h3>Find a Word</h3>
+          <p>Search for words in our dictionary.</p>
+          <button onclick="findWord()">Explore</button>
+        </div>
+
+        <div class="game-card">
+          <span>💡</span>
+          <h3>Word Hints</h3>
+          <p>Get suggestions as you type.</p>
+          <button onclick="getHints()">Get Hints</button>
+        </div>
+
+        <div class="game-card">
+          <span>🎯</span>
+          <h3>Guess the Word</h3>
+          <p>Use clues to discover the hidden word.</p>
+          <button onclick="playGuessingGame()">Play Now</button>
+        </div>
+
+        <div class="game-card">
+          <span>📖</span>
+          <h3>Categories</h3>
+          <p>Explore words by category.</p>
+          <button onclick="showCategories()">Browse</button>
+        </div>
+        <div class="game-card">
+          <span>➕</span>
+          <h3>Add a New Word</h3>
+          <p>Add new words to your dictionary.</p>
+          <button onclick="showAddWord()">Add Word</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-screen" id="addWordScreen">
+      <h2>➕ Add a New Word</h2>
+      <p>Add a new word to your dictionary and choose its category.</p>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="newWordInput"
+          placeholder="Enter a new word..."
+        />
+
+        <input
+          type="text"
+          id="newCategoryInput"
+          placeholder="Enter its category..."
+        />
+
+        <button onclick="addNewWord()">Add Word</button>
+      </div>
+
+      <p id="addWordResult"></p>
+
+      <button onclick="goBack()">⬅ Back to Menu</button>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <span>🔍</span>
+        <h3>Find Words</h3>
+        <p>Search for your favourite words.</p>
+      </div>
+
+      <div class="feature-card">
+        <span>💡</span>
+        <h3>Word Hints</h3>
+        <p>Discover words using smart suggestions.</p>
+      </div>
+
+      <div class="feature-card">
+        <span>🎯</span>
+        <h3>Guess the Word</h3>
+        <p>Solve clues and earn points.</p>
+      </div>
+
+      <div class="feature-card">
+        <span>📖</span>
+        <h3>Explore Categories</h3>
+        <p>Discover words by category.</p>
+      </div>
+    </section>
+    <section class="feature-screen" id="findWordScreen">
+      <h2>🔍 Find a Word</h2>
+      <p>Enter a word to check whether it exists in our dictionary.</p>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Enter a word..." />
+
+        <button onclick="searchWord()">Search</button>
+      </div>
+
+      <p id="searchResult"></p>
+
+      <button onclick="goBack()">⬅ Back to Menu</button>
+    </section>
+    <section class="feature-screen" id="hintsScreen">
+      <h2>💡 Word Hints</h2>
+      <p>Start typing and discover matching words!</p>
+
+      <div class="search-box">
+        <input
+          type="text"
+          id="hintInput"
+          placeholder="Start typing a word..."
+          oninput="showHints()"
+        />
+      </div>
+
+      <div id="hintResults"></div>
+
+      <button onclick="goBack()">⬅ Back to Menu</button>
+    </section>
+    <section class="feature-screen" id="guessScreen">
+      <h2>🎯 Guess the Word!</h2>
+      <p>Read the clue carefully and solve the mystery.</p>
+
+      <div class="guess-card">
+        <h3>🕵️ Your Mystery Clue</h3>
+
+        <p id="gameClue">Your clue will appear here!</p>
+
+        <input type="text" id="guessInput" placeholder="Enter your guess..." />
+
+        <button onclick="checkGuess()">Submit Guess</button>
+
+        <p id="guessResult"></p>
+
+        <div class="game-stats">
+          <p>❤️ Attempts left: <span id="attempts">3</span></p>
+          <p>⭐ Score: <span id="score">0</span></p>
+        </div>
+
+        <button onclick="startNewRound()">New Word 🔄</button>
+      </div>
+
+      <button onclick="goBack()">⬅ Back to Menu</button>
+    </section>
+    <section class="feature-screen" id="categoriesScreen">
+      <h2>📖 Explore Categories</h2>
+      <p>Choose a category and discover interesting words!</p>
+
+      <div class="category-options">
+        <button onclick="showCategoryWords('fruits')">🍎 Fruits</button>
+
+        <button onclick="showCategoryWords('animals')">🐶 Animals</button>
+
+        <button onclick="showCategoryWords('technology')">💻 Technology</button>
+      </div>
+
+      <div id="categoryResults"></div>
+
+      <button onclick="goBack()">⬅ Back to Menu</button>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>

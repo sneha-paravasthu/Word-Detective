@@ -1,0 +1,453 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Trebuchet MS", sans-serif;
+  background: #fff8ef;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 8%;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.level {
+  background: #fff0cf;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+/* Welcome section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 65px 10%;
+  min-height: 430px;
+  gap: 30px;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.tag {
+  display: inline-block;
+  background: #e7f6df;
+  color: #558b45;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  font-size: 52px;
+  line-height: 1.2;
+  margin: 25px 0;
+}
+
+.hero h1 span {
+  color: #ff6b6b;
+}
+
+.hero-content p {
+  color: #777;
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 16px 35px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.start-btn:hover {
+  background: #ed5252;
+  transform: translateY(-4px);
+}
+
+/* Decorative illustration */
+.hero-image {
+  width: 330px;
+  height: 330px;
+  background: #ffe1b8;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.emoji-circle {
+  font-size: 120px;
+}
+
+.floating-emoji {
+  position: absolute;
+  top: 20px;
+  right: 15px;
+  font-size: 45px;
+}
+
+.second {
+  top: auto;
+  bottom: 25px;
+  left: 0;
+}
+
+.third {
+  top: 45%;
+  right: -20px;
+}
+
+/* Feature cards */
+.features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 40px 8%;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+}
+
+.feature-card span {
+  font-size: 40px;
+}
+
+.feature-card h3 {
+  margin: 15px 0 10px;
+}
+
+.feature-card p {
+  color: #888;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Mobile layout */
+@media (max-width: 800px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 7%;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero-image {
+    width: 250px;
+    height: 250px;
+  }
+
+  .features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+}
+/* Game screen */
+.game-screen {
+  display: none;
+  padding: 60px 8%;
+  text-align: center;
+}
+
+.game-screen h2 {
+  font-size: 36px;
+  color: #ff6b6b;
+  margin-bottom: 12px;
+}
+
+.game-screen > p {
+  color: #777;
+  margin-bottom: 35px;
+  font-size: 17px;
+}
+
+.game-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.game-card {
+  background: white;
+  padding: 35px 25px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.game-card span {
+  font-size: 45px;
+}
+
+.game-card h3 {
+  margin: 15px 0 10px;
+}
+
+.game-card p {
+  color: #888;
+  margin-bottom: 20px;
+}
+
+.game-card button {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.game-card button:hover {
+  background: #ed5252;
+}
+
+@media (max-width: 600px) {
+  .game-options {
+    grid-template-columns: 1fr;
+  }
+}
+/* Individual feature screens */
+.feature-screen {
+  display: none;
+  padding: 60px 8%;
+  text-align: center;
+}
+
+.feature-screen h2 {
+  color: #ff6b6b;
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.feature-screen > p {
+  color: #777;
+  margin-bottom: 25px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px auto;
+  max-width: 550px;
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px;
+  border: 2px solid #ffe1b8;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #ff6b6b;
+}
+
+.search-box button,
+.feature-screen > button {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#searchResult {
+  font-weight: bold;
+  margin: 20px 0;
+}
+/* Word Hints screen */
+#hintResults {
+  max-width: 550px;
+  margin: 0 auto 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hint-item {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  color: #555;
+  font-weight: bold;
+}
+
+.hint-item:hover {
+  background: #fff0cf;
+}
+
+#hintResults p {
+  color: #888;
+  padding: 15px;
+}
+/* Guess the Word screen */
+.guess-card {
+  background: white;
+  max-width: 550px;
+  margin: 30px auto;
+  padding: 35px;
+  border-radius: 22px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+.guess-card h3 {
+  color: #ff6b6b;
+  font-size: 23px;
+  margin-bottom: 20px;
+}
+
+#gameClue {
+  background: #fff0cf;
+  padding: 20px;
+  border-radius: 15px;
+  color: #555;
+  font-size: 17px;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+#guessInput {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ffe1b8;
+  border-radius: 25px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+#guessInput:focus {
+  border-color: #ff6b6b;
+}
+
+.guess-card button {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 13px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.guess-card button:hover {
+  background: #ed5252;
+}
+
+#guessResult {
+  font-weight: bold;
+  margin: 20px 0;
+  min-height: 24px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: space-around;
+  background: #e7f6df;
+  padding: 15px;
+  border-radius: 15px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+/* Categories screen */
+.category-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin: 35px auto;
+}
+
+.category-options button {
+  background: white;
+  border: 2px solid #ffe1b8;
+  padding: 20px 30px;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.category-options button:hover {
+  background: #fff0cf;
+  transform: translateY(-5px);
+}
+
+#categoryResults {
+  max-width: 600px;
+  margin: 25px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-word {
+  background: #e7f6df;
+  color: #558b45;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+}
