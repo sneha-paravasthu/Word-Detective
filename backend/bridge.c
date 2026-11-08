@@ -13,15 +13,33 @@ int main()
     initializeCategories(categoryTable);
 
     // Load the default dictionary
+
+    // Load the default dictionary
     const char *words[] = {
-        "apple", "banana", "mango", "orange", "grapes"};
+        "apple", "banana", "mango", "orange", "grapes",
+        "pineapple", "strawberry", "watermelon", "papaya",
+        "kiwi", "peach", "pear", "cherry", "guava", "pomegranate",
 
-    const char *category = "Fruits";
+        "tiger", "elephant", "rabbit", "dolphin", "penguin", "lion",
 
-    for (int i = 0; i < 5; i++)
+        "computer", "keyboard", "internet", "software", "robot", "laptop"};
+
+    const char *categories[] = {
+        "Fruits", "Fruits", "Fruits", "Fruits", "Fruits",
+        "Fruits", "Fruits", "Fruits", "Fruits", "Fruits",
+        "Fruits", "Fruits", "Fruits", "Fruits", "Fruits",
+
+        "Animals", "Animals", "Animals", "Animals", "Animals", "Animals",
+
+        "Technology", "Technology", "Technology",
+        "Technology", "Technology", "Technology"};
+
+    int wordCount = sizeof(words) / sizeof(words[0]);
+
+    for (int i = 0; i < wordCount; i++)
     {
         insertWord(root, words[i]);
-        addWordToCategory(categoryTable, category, words[i]);
+        addWordToCategory(categoryTable, categories[i], words[i]);
     }
 
     char command[120];
@@ -50,6 +68,16 @@ int main()
         {
             suggestWords(root, word);
             printf("SUGGEST_DONE\n");
+        }
+        else if (strcmp(wordCategory, "CATEGORIES") == 0)
+        {
+            displayCategories(categoryTable);
+            printf("CATEGORY_DONE\n");
+        }
+        else if (strcmp(wordCategory, "WORDS") == 0)
+        {
+            displayWordsInCategory(categoryTable, word);
+            printf("WORDS_DONE\n");
         }
         else if (strcmp(wordCategory, "ADD") == 0)
         {

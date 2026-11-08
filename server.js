@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const { spawn } = require("child_process");
 const readline = require("readline");
 
@@ -34,34 +35,37 @@ const readyPromise = new Promise((resolve, reject) => {
     }
 
     if (pendingRequest) {
-      if (pendingRequest.type === "suggest") {
-        if (line === "SUGGEST_DONE") {
-          const finish = pendingRequest.resolve;
-          const suggestions = pendingRequest.lines;
-          pendingRequest = null;
-          finish(suggestions);
-        } else if (
-          line !== "Word Suggestions:" &&
-          line !== "No suggestions found!" &&
-          line !== "Invalid prefix!"
-        ) {
-          if (line.trim() !== "") {
-            pendingRequest.lines.push(line.trim());
-          }
-        }
+      if (pendingRequest.type === "single") {
+        // Resolve single-line responses immediately
+        const finish = pendingRequest.resolve;
+        pendingRequest = null;
+        finish(line.trim());
       } else {
-        const validResponses = [
-          "FOUND",
-          "NOT_FOUND",
-          "ADDED",
-          "INVALID_INPUT",
-          "UNKNOWN_COMMAND",
-        ];
+        // Handle multi-line responses
+        const doneMarkers = {
+          suggest: "SUGGEST_DONE",
+          categories: "CATEGORY_DONE",
+          words: "WORDS_DONE",
+        };
 
-        if (validResponses.includes(line)) {
+        if (line === doneMarkers[pendingRequest.type]) {
           const finish = pendingRequest.resolve;
+          const results = pendingRequest.lines;
           pendingRequest = null;
-          finish(line);
+          finish(results);
+        } else {
+          const cleanedLine = line.trim();
+
+          if (
+            cleanedLine !== "" &&
+            !cleanedLine.endsWith(":") &&
+            cleanedLine !== "No suggestions found!" &&
+            cleanedLine !== "Invalid prefix!" &&
+            cleanedLine !== "No categories available!" &&
+            cleanedLine !== "No words found in this category!"
+          ) {
+            pendingRequest.lines.push(cleanedLine.replace(/^\-\s*/, ""));
+          }
         }
       }
     }
@@ -155,34 +159,121 @@ app.post("/api/suggest", async (req, res) => {
   }
 });
 
+app.get("/api/categories", async (req, res) => {
+  try {
+    const categories = await sendToBridge("CATEGORIES", "categories");
+
+    res.json({
+      categories: categories,
+      message: "Categories retrieved successfully!",
+    });
+  } catch (error) {
+    res.status(500).json({
+      categories: [],
+      message: "Backend error.",
+    });
+  }
+});
+
+app.post("/api/words", async (req, res) => {
+  const category = req.body.category;
+
+  if (typeof category !== "string" || !/^[a-zA-Z ]+$/.test(category)) {
+    return res.status(400).json({
+      words: [],
+      message: "Please enter a valid category.",
+    });
+  }
+
+  try {
+    const words = await sendToBridge(`WORDS ${category}`, "words");
+
+    res.json({
+      words: words,
+      message: "Words retrieved successfully!",
+    });
+  } catch (error) {
+    res.status(500).json({
+      words: [],
+      message: "Backend error.",
+    });
+  }
+});
+
 // Add a word using the C Trie and Hash Table
+
 app.post("/api/add", async (req, res) => {
-  const { word, category } = req.body;
+  const { word, category, clue } = req.body;
 
   if (
     typeof word !== "string" ||
     typeof category !== "string" ||
+    typeof clue !== "string" ||
     !/^[a-zA-Z]+$/.test(word) ||
-    !/^[a-zA-Z]+$/.test(category)
+    !/^[a-zA-Z]+$/.test(category) ||
+    clue.trim() === ""
   ) {
     return res.status(400).json({
-      message: "Enter a valid word and category.",
+      success: false,
+      message: "Enter a valid word, category and clue.",
     });
   }
 
   try {
     const result = await sendToBridge(`ADD ${word} ${category}`);
+    console.log("C bridge ADD response:", result);
+    if (result !== "ADDED") {
+      return res.json({
+        success: false,
+        message: "Unable to add word.",
+      });
+    }
+
+    const filePath = path.join(__dirname, "data", "customWords.json");
+
+    const customWords = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+    customWords.push({
+      word: word.toLowerCase(),
+      category: category,
+      clue: clue.trim(),
+    });
+
+    fs.writeFileSync(filePath, JSON.stringify(customWords, null, 2));
 
     res.json({
-      success: result === "ADDED",
-      message:
-        result === "ADDED" ? "Word added successfully!" : "Unable to add word.",
+      success: true,
+      message: "Word and clue saved successfully! 🎉",
     });
   } catch (error) {
-    res.status(500).json({ message: "Backend error." });
+    console.error("Error saving custom word:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Unable to save the word and clue.",
+    });
   }
 });
 
+app.get("/api/custom-words", (req, res) => {
+  try {
+    const filePath = path.join(__dirname, "data", "customWords.json");
+
+    const customWords = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+    res.json({
+      success: true,
+      words: customWords,
+    });
+  } catch (error) {
+    console.error("Error loading custom words:", error);
+
+    res.status(500).json({
+      success: false,
+      words: [],
+    });
+  }
+});
 // Start the Node.js server
 app.listen(PORT, () => {
   console.log(`Word Detective server: http://localhost:${PORT}`);

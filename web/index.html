@@ -93,7 +93,11 @@
           id="newCategoryInput"
           placeholder="Enter its category..."
         />
-
+        <textarea
+          id="newWordClue"
+          placeholder="Write a hint for this word..."
+          rows="3"
+        ></textarea>
         <button onclick="addNewWord()">Add Word</button>
       </div>
 
@@ -178,7 +182,7 @@
           <p>⭐ Score: <span id="score">0</span></p>
         </div>
 
-        <button onclick="startNewRound()">New Word 🔄</button>
+        <button onclick="startNewRound()">New Round 🔄</button>
       </div>
 
       <button onclick="goBack()">⬅ Back to Menu</button>
@@ -187,12 +191,8 @@
       <h2>📖 Explore Categories</h2>
       <p>Choose a category and discover interesting words!</p>
 
-      <div class="category-options">
-        <button onclick="showCategoryWords('fruits')">🍎 Fruits</button>
-
-        <button onclick="showCategoryWords('animals')">🐶 Animals</button>
-
-        <button onclick="showCategoryWords('technology')">💻 Technology</button>
+      <div class="category-options" id="categoryOptions">
+        <p>Loading categories...</p>
       </div>
 
       <div id="categoryResults"></div>
